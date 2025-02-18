@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "Citation" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "text" TEXT NOT NULL,
+    "name" TEXT,
+    "createAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
