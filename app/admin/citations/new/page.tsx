@@ -11,7 +11,7 @@ export default function Page() {
             <CardHeader>
                 <CardTitle>Create citation</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col gap-2">
         <form action="/api/citations" 
         method="post"
         className="flex flex-col gap-2"
