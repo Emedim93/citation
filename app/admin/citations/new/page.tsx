@@ -4,26 +4,22 @@ import { Button } from "@/src/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { useState } from "react";
+import { useFormStatus } from "react-dom";
+import { createCitationAction } from "./citations.action";
 //import Form from "next/form";
 
 
 export default function Page() {
-    const [isLoading, setIsLoading] = useState(false)
 
     const createCitation = async (FormData: FormData) => {
-        const result = await fetch(`/api/citations`, {
-            body: JSON.stringify({
-                citation: FormData.get("citation"),
-                author: FormData.get("author"),
-            }),
-            method: "POST",
+        const json = await createCitationAction({
+            author: String(FormData.get("author")),
+            text: String(FormData.get("text")),
         });
-        const json = await result.json();
-        setIsLoading(false);
 
-        console.log(json);
-    }
+        if (json.error)
+            alert(json.error)
+    };
 
     return (
         <Card>
@@ -32,8 +28,8 @@ export default function Page() {
             </CardHeader>
             <CardContent>
                 <form 
-                action={async (formData) => {
-                    createCitation(formData);
+                    action={async (formData) => {
+                        createCitation(formData);
                 }} 
                 className="flex flex-col gap-2"
         >
@@ -45,11 +41,19 @@ export default function Page() {
                 Author
             <Input  name="author" />
             </Label>
-            <Button disabled={isLoading} type="submit">
-                {isLoading ? "Loading..." : "Submit"}
-            </Button>
+            <SubmitButton />
         </form>
         </CardContent>
         </Card>
     );
+}
+
+const SubmitButton = () => {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button disabled={pending} type="submit">
+            {pending ? "Loading..." : "Submit"}
+        </Button>
+    )
 }
