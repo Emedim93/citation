@@ -32,7 +32,21 @@ export default async function Page() {
               </p>
               <p>-- {citation.author}</p>
             </div>
-           <DeleteCitationButton />
+            <div className="flex flex-col gap-2">
+           <DeleteCitationButton id={citation.id} />
+           <Link
+          className={buttonVariants({ size: "sm", variant: "outline" })}
+          href={`/admin/citations/${citation.id}`}
+          >
+            ✒️
+          </Link>
+          <Link
+          className={buttonVariants({ size: "sm", variant: "outline" })}
+          href={`/citations/${citation.id}`}
+          >
+            🔗
+          </Link>
+          </div>
           </Card>
         ))}
         <Link

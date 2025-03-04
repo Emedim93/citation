@@ -1,6 +1,7 @@
 "use server"
 import { prisma } from "@/src/lib/prisma";
 import { redirect } from "next/navigation";
+import { stringify } from "querystring";
 
 export async function createCitationAction (citation: {
     text: string;
@@ -21,6 +22,28 @@ export async function createCitationAction (citation: {
     redirect("/admin");
 }
 
+export async function updateCitationAction(id: number, citation: {
+    text: string;
+    author: string;
+}) {
+    try {
+        await prisma.citation.update({
+            where: {
+                id,
+            },
+            data: {
+                author: citation.author,
+                text: citation.text,
+            },
+        });
+    } catch {
+        return {
+            error: "Error while creating the citation",
+        };
+    }
+    redirect("/admin");
+}
+ 
 export async function deleteCitationAction(id: number) {
     await prisma.citation.delete({
         where: {
@@ -29,6 +52,6 @@ export async function deleteCitationAction(id: number) {
     });
 
     return {
-        message: "Deleted !"
+        message: "Deleted !",
     };
 }

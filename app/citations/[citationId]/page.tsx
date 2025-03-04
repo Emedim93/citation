@@ -1,7 +1,5 @@
 import { Card, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { prisma } from "@/src/lib/prisma";
-import { CitationForm } from "../new/citation-form";
-
 
 export default async function Page(props:{
     params: Promise<{
@@ -28,5 +26,14 @@ export default async function Page(props:{
         );
     }
 
-    return <CitationForm  citation={citation} />;
+    return (
+        <Card className="p-4 flex items-start gap-4" key={citation.id}>
+            <div className="flex flex-col gap-2 flex-1">
+              <p className="relative pl-8 italic before:content-['´´'] before:absolute before:left-0 bottom-0 after:text-4xl after:text-gray-400">
+                {citation.text}
+              </p>
+              <p>-- {citation.author}</p>
+            </div>
+        </Card>    
+    )
 }
